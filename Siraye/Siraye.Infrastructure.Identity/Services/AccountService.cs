@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Ocsp;
 using Siraye.Application.DTOs.Account;
 using Siraye.Application.DTOs.Email;
 using Siraye.Application.Enums;
@@ -12,13 +10,13 @@ using Siraye.Application.Exceptions;
 using Siraye.Application.Interfaces;
 using Siraye.Application.Wrappers;
 using Siraye.Domain.Settings;
+using Siraye.Infrastructure.Identity.Contexts;
 using Siraye.Infrastructure.Identity.Helpers;
 using Siraye.Infrastructure.Identity.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net.Cache;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -165,6 +163,7 @@ namespace Siraye.Infrastructure.Identity.Services
         private async Task<string> SendVerificationEmail(ApplicationUser user, string origin)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var sewunet = code;
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var route = "api/account/confirm-email/";
             var _enpointUri = new Uri(string.Concat($"{origin}/", route));
@@ -233,6 +232,9 @@ namespace Siraye.Infrastructure.Identity.Services
                 throw new ApiException($"Error occured while reseting the password.");
             }
         }
+
+
+       
     }
 
 }

@@ -22,6 +22,7 @@ namespace Siraye.WebApi
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddApplicationLayer();
             services.AddIdentityInfrastructure(_config);
             services.AddPersistenceInfrastructure(_config);
@@ -31,6 +32,7 @@ namespace Siraye.WebApi
             services.AddApiVersioningExtension();
             services.AddHealthChecks();
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+           
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,6 +46,12 @@ namespace Siraye.WebApi
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseCors(builder => builder
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .SetIsOriginAllowed((host) => true)
+              .AllowCredentials()
+          );
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
@@ -56,6 +64,7 @@ namespace Siraye.WebApi
              {
                  endpoints.MapControllers();
              });
+          
         }
     }
 }

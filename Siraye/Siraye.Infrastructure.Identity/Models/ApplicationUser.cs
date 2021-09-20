@@ -15,5 +15,16 @@ namespace Siraye.Infrastructure.Identity.Models
         {
             return this.RefreshTokens?.Find(x => x.Token == token) != null;
         }
+        public static ApplicationUser ToDto(this ApplicationUser userData)
+        {
+            return new ApplicationUser
+            {
+                Id = userData.Id,
+                FirstName = userData.FirstName,
+                LastName = userData.LastName,
+                Email = userData.Email
+
+            };
+        }
     }
 }

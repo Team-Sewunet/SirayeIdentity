@@ -3,9 +3,6 @@ using Siraye.Application.Interfaces.Repositories;
 using Siraye.Domain.Entities;
 using Siraye.Infrastructure.Persistence.Contexts;
 using Siraye.Infrastructure.Persistence.Repository;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Siraye.Infrastructure.Persistence.Repositories

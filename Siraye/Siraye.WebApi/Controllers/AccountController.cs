@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Siraye.Application.DTOs.Account;
 using Siraye.Application.Interfaces;
-using System;
+using Siraye.Infrastructure.Identity.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Siraye.WebApi.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        public AccountController(IAccountService accountService)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public AccountController(IAccountService accountService, UserManager<ApplicationUser> userManager)
         {
             _accountService = accountService;
+            _userManager = userManager;
         }
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(AuthenticationRequest request)
@@ -54,5 +58,14 @@ namespace Siraye.WebApi.Controllers
             else
                 return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
+
+        [HttpGet("all-users")]
+        public async Task<IReadOnlyList<ApplicationUser>> ListUsers()
+        {
+            var users = _userManager.Users;
+
+            return await users.ToListAsync();
+        }
+
     }
 }

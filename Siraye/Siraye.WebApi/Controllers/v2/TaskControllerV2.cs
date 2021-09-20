@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Siraye.WebApi.Controllers.v1
+namespace Siraye.WebApi.Controllers.v2
 {
-    [ApiVersion("1.0")]
-    public class TaskController : BaseApiController
+    [ApiVersion("2.0")]
+    public class TaskControllerV2 : BaseApiController
     {
         // GET: api/<controller>
         [HttpGet]
@@ -31,7 +31,7 @@ namespace Siraye.WebApi.Controllers.v1
 
         // POST api/<controller>
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Post(CreateTaskCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -39,7 +39,7 @@ namespace Siraye.WebApi.Controllers.v1
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Put(int id, UpdateTaskCommand command)
         {
             if (id != command.id)
@@ -51,7 +51,7 @@ namespace Siraye.WebApi.Controllers.v1
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await Mediator.Send(new DeleteTaskByIdCommand { Id = id }));
